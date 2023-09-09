@@ -4,3 +4,9 @@
 [submodule "src/3rdparty/qthttpserver"]
 	path = src/3rdparty/qthttpserver
 	url = https://code.qt.io/qt-labs/qthttpserver.git
+[submodule "src/dialogmaster"]
+	path = src/dialogmaster
+	url = git@github.com:Skycoder42/DialogMaster.git
+[submodule "src/taskbarcontrol"]
+	path = src/taskbarcontrol
+	url = git@github.com:Skycoder42/QTaskbarControl.git

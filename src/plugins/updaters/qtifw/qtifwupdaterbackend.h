@@ -19,8 +19,8 @@ public:
 	static const QString KeySilent;
 	static const QString KeyExtraInstallArgs;
 	static const QString KeyRunAsAdmin;
-
 	static const QString DefaultPath;
+    static const QString KeyRepoPathArg;
 	static constexpr bool DefaultSilent {false};
 
 	explicit QtIfwUpdaterBackend(QString &&key, QObject *parent = nullptr);
@@ -40,6 +40,7 @@ private:
 	std::optional<QList<QtAutoUpdater::UpdateInfo>> parseUpdates(QIODevice *device);
 	void checkReader(QXmlStreamReader &reader);
 	Q_NORETURN void throwUnexpectedElement(QXmlStreamReader &reader);
+    void addRepoPath(QStringList &args);
 };
 
 Q_DECLARE_LOGGING_CATEGORY(logQtIfwBackend)

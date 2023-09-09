@@ -1,6 +1,7 @@
+include($${PWD}/../common.pri)
 TEMPLATE = app
 
-QT += core gui widgets autoupdaterwidgets
+QT += core gui widgets
 
 TARGET = SimpleUpdaterGui
 

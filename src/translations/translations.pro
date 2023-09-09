@@ -16,11 +16,9 @@ TRANSLATIONS += \
 CONFIG += lrelease
 QM_FILES_INSTALL_PATH = $$[QT_INSTALL_TRANSLATIONS]
 
-QDEP_DEPENDS += \
-	Skycoder42/DialogMaster@1.4.0 \
-	Skycoder42/QTaskbarControl@1.3.2
+include(../dialogmaster/dialogmaster.pri)
+include(../taskbarcontrol/qtaskbarcontrol.pri)
 
-!load(qdep):error("Failed to load qdep feature! Run 'qdep prfgen --qmake $$QMAKE_QMAKE' to create it.")
 
 #replace template qm by ts
 QM_FILES -= $$__qdep_lrelease_real_dir/qtautoupdater_template.qm

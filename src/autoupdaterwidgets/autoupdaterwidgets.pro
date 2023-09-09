@@ -35,6 +35,9 @@ FORMS += \
 RESOURCES += \
 	autoupdaterwidgets.qrc
 
+DEFINES += "Q_DIALOG_MASTER_EXPORT=" \
+           "Q_TASKBAR_CONTROL_EXPORT="
+
 load(qt_module)
 
 win32 {
@@ -45,8 +48,6 @@ win32 {
 	QMAKE_TARGET_BUNDLE_PREFIX = "de.skycoder42."
 }
 
-QDEP_DEPENDS += \
-	Skycoder42/DialogMaster@1.4.0 \
-	Skycoder42/QTaskbarControl@1.3.2
+include(../dialogmaster/dialogmaster.pri)
+include(../taskbarcontrol/qtaskbarcontrol.pri)
 
-!load(qdep):error("Failed to load qdep feature! Run 'qdep prfgen --qmake $$QMAKE_QMAKE' to create it.")

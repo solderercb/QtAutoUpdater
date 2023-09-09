@@ -10,6 +10,7 @@ const QString QtIfwUpdaterBackend::KeyExtraCheckArgs {QStringLiteral("extraCheck
 const QString QtIfwUpdaterBackend::KeySilent {QStringLiteral("silent")};
 const QString QtIfwUpdaterBackend::KeyExtraInstallArgs {QStringLiteral("extraInstallArgs")};
 const QString QtIfwUpdaterBackend::KeyRunAsAdmin {QStringLiteral("runAsAdmin")};
+const QString QtIfwUpdaterBackend::KeyRepoPathArg {QStringLiteral("repoPathArg")};
 
 #ifdef Q_OS_OSX
 const QString QtIfwUpdaterBackend::DefaultPath {QStringLiteral("../../maintenancetool")};
@@ -48,6 +49,7 @@ void QtIfwUpdaterBackend::checkForUpdates()
 	info.program = mtInfo->absoluteFilePath();
 	info.workingDir = mtInfo->absolutePath();
 	info.arguments = QStringList{QStringLiteral("--checkupdates")};
+    addRepoPath(info.arguments);
 	if (auto extraArgs = config()->value(KeyExtraCheckArgs); extraArgs)
 		info.arguments += readArgumentList(*extraArgs);
 	runUpdateTool(0, std::move(info));
@@ -91,13 +93,24 @@ std::optional<ProcessBackend::InstallProcessInfo> QtIfwUpdaterBackend::installer
 	info.arguments = QStringList{
 		config()->value(KeySilent, DefaultSilent).toBool() ?
 					QStringLiteral("--silentUpdate") :
-					QStringLiteral("--updater")
-	};
+                    QStringLiteral("--updater"),
+    };
+    addRepoPath(info.arguments);
+
 	if (auto extraArgs = config()->value(KeyExtraInstallArgs); extraArgs)
 		info.arguments += readArgumentList(*extraArgs);
 	if (auto runAsAdmin = config()->value(KeyRunAsAdmin); runAsAdmin)
 		info.runAsAdmin = runAsAdmin->toBool();
 	return info;
+}
+
+void QtIfwUpdaterBackend::addRepoPath(QStringList &args)
+{
+    if(config()->value(KeyRepoPathArg, 0).toBool())
+    {
+        args.append(QStringLiteral("--st"));
+        args.append(QLatin1String(config()->value(KeyRepoPathArg, QLatin1String("")).toByteArray()));
+    }
 }
 
 std::optional<QFileInfo> QtIfwUpdaterBackend::findMaintenanceTool()

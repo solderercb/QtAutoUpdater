@@ -1,5 +1,6 @@
 load(qt_parts)
 
+SUBDIRS += examples
 SUBDIRS += doc
 
 doxygen.target = doxygen

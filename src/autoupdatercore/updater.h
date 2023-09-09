@@ -22,6 +22,7 @@ namespace QtAutoUpdater
 class UpdateInstaller;
 
 class UpdaterPrivate;
+
 //! The main updater. Can check for updates and trigger update installations
 class Q_AUTOUPDATERCORE_EXPORT Updater : public QObject
 {
@@ -82,9 +83,9 @@ public:
 	static Updater *create(QSettings *config,
 						   QObject *parent = nullptr);
 	//! Creates an updater instance using the given backend and configuration
-	static Updater *create(QString key,
-						   QVariantMap configuration,
-						   QObject *parent = nullptr);
+    static Updater *create(QString backend,
+                           QVariantMap configuration,
+                           QObject *parent = nullptr);
 	//! Creates an updater instance using the given configuration reader
 	static Updater *create(UpdaterBackend::IConfigReader *configReader,
 						   QObject *parent = nullptr);

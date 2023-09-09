@@ -18,7 +18,7 @@ Q_LOGGING_CATEGORY(logUpdater, "qt.autoupdater.core.Updater")
 
 Q_GLOBAL_STATIC_WITH_ARGS(QFactoryLoader, loader,
 						  (QtAutoUpdater_UpdaterPlugin_iid,
-						   QLatin1String("/updaters")))
+                           QLatin1String("/plugins/updaters")))
 
 Updater::Updater(QObject *parent) :
 	Updater(*new UpdaterPrivate{}, parent)
@@ -84,10 +84,10 @@ Updater *Updater::create(QSettings *config, QObject *parent)
 	return UpdaterPrivate::createUpdater(new SettingsConfigReader {config}, parent);
 }
 
-Updater *Updater::create(QString key, QVariantMap configuration, QObject *parent)
+Updater *Updater::create(QString backend, QVariantMap configuration, QObject *parent)
 {
 	return UpdaterPrivate::createUpdater(new VariantConfigReader {
-											 std::move(key),
+                                             std::move(backend),
 											 std::move(configuration)
 										 }, parent);
 }
@@ -370,6 +370,9 @@ Updater *UpdaterPrivate::createUpdater(UpdaterBackend::IConfigReader *config, QO
 {
 	auto updater = new Updater{parent};
 	auto backend = qLoadPlugin<UpdaterBackend, UpdaterPlugin>(loader, config->backend(), updater);
+    if(!backend)
+        qWarning("Updater: plugin \"%s\" not loaded", config->backend().toLatin1().data());
+
 	if (!backend || !backend->initialize(QScopedPointer<UpdaterBackend::IConfigReader>{config})) {
 		delete updater;
 		return nullptr;
