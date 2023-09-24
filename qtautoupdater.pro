@@ -1,5 +1,7 @@
 load(qt_parts)
 
+system(echo BUILD_DIR = $$OUT_PWD > $$PWD/../outpwd.tmp)
+
 SUBDIRS += examples
 SUBDIRS += doc
 

@@ -40,6 +40,9 @@ DEFINES += "Q_DIALOG_MASTER_EXPORT=" \
 
 load(qt_module)
 
+# в common.pri производится копирование скомпилированных файлов в папку основного проекта. Включение этого файла достаточно сделать только здесь, т. к. autoUpdaterCore скомплируется раньше (заданы зависимости)
+include(../../common.pri)
+
 win32 {
 	QMAKE_TARGET_PRODUCT = "$$TARGET"
 	QMAKE_TARGET_COMPANY = "Skycoder42"
